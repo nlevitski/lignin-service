@@ -1,0 +1,43 @@
+services:
+  lignin-dev:
+    profiles:
+      - dev
+    build:
+      context: .
+      target: development
+    env_file: .env
+    environment:
+      NODE_ENV: development
+    command: >
+      sh -c "if [ ! -d node_modules/@strapi/types ]; then npm install; fi; npm run develop"
+    ports:
+      - "1338:1337"
+    volumes:
+      - ./:/app
+      - lignin_node_modules:/app/node_modules
+      - ./.tmp:/app/.tmp
+    networks:
+      - lignin
+
+  lignin-prod:
+    profiles:
+      - prod
+    build:
+      context: .
+      target: production
+    env_file: .env
+    environment:
+      NODE_ENV: production
+    ports:
+      - "1337:1337"
+    volumes:
+      - ./.tmp:/app/.tmp
+    networks:
+      - lignin
+
+networks:
+  lignin:
+    external: true
+
+volumes:
+  lignin_node_modules:

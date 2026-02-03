@@ -1,16 +1,52 @@
-FROM node:22-alpine3.18
-
-RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev git
-ARG NODE_ENV=development
-ENV NODE_ENV=${NODE_ENV}
-
+FROM node:22-slim AS base
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install
-ENV PATH=/app/node_modules/.bin:$PATH
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    build-essential \
+    python3 \
+    git \
+    libvips-dev \
+    ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
+
+
+FROM base AS deps
+
+ENV NODE_ENV=development
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+
+FROM deps AS development
+
+ENV NODE_ENV=development
 
 COPY . .
-RUN chown -R node:node /app
-USER node
+RUN mkdir -p /app/.tmp /app/public/uploads
+
 EXPOSE 1337
-CMD ["pnpm", "run", "develop"]
+CMD ["npm", "run", "develop"]
+
+
+FROM deps AS build
+
+ENV NODE_ENV=production
+
+COPY . .
+RUN npm run build \
+  && npm prune --omit=dev
+
+
+FROM base AS production
+
+ENV NODE_ENV=production
+
+COPY --from=build --chown=node:node /app /app
+RUN mkdir -p /app/.tmp /app/public/uploads \
+  && chown -R node:node /app/.tmp /app/public/uploads
+
+EXPOSE 1337
+USER node
+CMD ["npm", "run", "start"]
