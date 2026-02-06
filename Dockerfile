@@ -1,5 +1,7 @@
 FROM node:22-slim AS base
 WORKDIR /app
+RUN corepack enable \
+  && corepack prepare pnpm@10.7.1 --activate
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
@@ -15,19 +17,9 @@ FROM base AS deps
 
 ENV NODE_ENV=development
 
-COPY package.json package-lock.json ./
-RUN npm ci
-
-
-FROM deps AS development
-
-ENV NODE_ENV=development
-
-COPY . .
-RUN mkdir -p /app/.tmp /app/public/uploads
-
-EXPOSE 1337
-CMD ["npm", "run", "develop"]
+COPY package.json pnpm-lock.yaml ./
+RUN corepack enable \
+  && pnpm install --frozen-lockfile
 
 
 FROM deps AS build
@@ -35,8 +27,8 @@ FROM deps AS build
 ENV NODE_ENV=production
 
 COPY . .
-RUN npm run build \
-  && npm prune --omit=dev
+RUN pnpm run build \
+  && pnpm prune --prod
 
 
 FROM base AS production
@@ -49,4 +41,4 @@ RUN mkdir -p /app/.tmp /app/public/uploads \
 
 EXPOSE 1337
 USER node
-CMD ["npm", "run", "start"]
+CMD ["pnpm", "run", "start"]
