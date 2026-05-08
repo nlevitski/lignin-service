@@ -487,6 +487,7 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
 	};
 	attributes: {
 		content: Schema.Attribute.Blocks;
+		contentMD: Schema.Attribute.RichText;
 		cover: Schema.Attribute.Media<"images" | "files" | "videos" | "audios">;
 		coverPreview: Schema.Attribute.Media<
 			"images" | "files" | "videos" | "audios"
@@ -504,11 +505,12 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
 		metaDescription: Schema.Attribute.String;
 		metaKeywords: Schema.Attribute.String;
 		mission: Schema.Attribute.String;
-		path: Schema.Attribute.String &
-			Schema.Attribute.Required &
-			Schema.Attribute.Unique;
+		path: Schema.Attribute.String & Schema.Attribute.Required;
 		publishedAt: Schema.Attribute.DateTime;
 		seo: Schema.Attribute.Component<"shared.seo", true>;
+		site: Schema.Attribute.Enumeration<["lignin.by", "ligninsorbent.ru"]> &
+			Schema.Attribute.Required &
+			Schema.Attribute.DefaultTo<"lignin.by">;
 		subtitle: Schema.Attribute.String;
 		summary: Schema.Attribute.String;
 		teaser: Schema.Attribute.Blocks;
@@ -578,7 +580,6 @@ export interface ApiBigboardBigboard extends Struct.CollectionTypeSchema {
 			Schema.Attribute.Private;
 		menuName: Schema.Attribute.String;
 		menuOrder: Schema.Attribute.Integer &
-			Schema.Attribute.Unique &
 			Schema.Attribute.SetMinMax<
 				{
 					max: 10;
@@ -587,6 +588,9 @@ export interface ApiBigboardBigboard extends Struct.CollectionTypeSchema {
 				number
 			>;
 		publishedAt: Schema.Attribute.DateTime;
+		site: Schema.Attribute.Enumeration<["lignin.by", "ligninsorbent.ru"]> &
+			Schema.Attribute.Required &
+			Schema.Attribute.DefaultTo<"ligninsorbent.ru">;
 		updatedAt: Schema.Attribute.DateTime;
 		updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
 			Schema.Attribute.Private;
@@ -814,6 +818,9 @@ export interface ApiWidgetWidget extends Struct.CollectionTypeSchema {
 			Schema.Attribute.Private;
 		publishedAt: Schema.Attribute.DateTime;
 		seo: Schema.Attribute.Component<"shared.seo", true>;
+		site: Schema.Attribute.Enumeration<["lignin.by", "ligninsorbent.ru"]> &
+			Schema.Attribute.Required &
+			Schema.Attribute.DefaultTo<"lignin.by">;
 		updatedAt: Schema.Attribute.DateTime;
 		updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
 			Schema.Attribute.Private;
