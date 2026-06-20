@@ -35,7 +35,7 @@ export interface SharedSeo extends Struct.ComponentSchema {
 		metaDescription: Schema.Attribute.String &
 			Schema.Attribute.Required &
 			Schema.Attribute.SetMinMaxLength<{
-				maxLength: 160;
+				maxLength: 200;
 				minLength: 50;
 			}>;
 		metaImage: Schema.Attribute.Media<"images">;
@@ -43,7 +43,7 @@ export interface SharedSeo extends Struct.ComponentSchema {
 		metaTitle: Schema.Attribute.String &
 			Schema.Attribute.Required &
 			Schema.Attribute.SetMinMaxLength<{
-				maxLength: 60;
+				maxLength: 95;
 			}>;
 		metaViewport: Schema.Attribute.String;
 		openGraph: Schema.Attribute.Component<"shared.open-graph", false>;
