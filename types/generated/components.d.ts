@@ -16,7 +16,7 @@ export interface SharedOpenGraph extends Struct.ComponentSchema {
 		ogTitle: Schema.Attribute.String &
 			Schema.Attribute.Required &
 			Schema.Attribute.SetMinMaxLength<{
-				maxLength: 70;
+				maxLength: 95;
 			}>;
 		ogType: Schema.Attribute.String;
 		ogUrl: Schema.Attribute.String;
