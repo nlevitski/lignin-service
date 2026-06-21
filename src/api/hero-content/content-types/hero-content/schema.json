@@ -10,9 +10,14 @@
   "options": {
     "draftAndPublish": false
   },
+  "pluginOptions": {},
   "attributes": {
     "content": {
       "type": "blocks"
+    },
+    "siteName": {
+      "type": "string",
+      "required": true
     },
     "background": {
       "type": "media",
@@ -27,8 +32,8 @@
     },
     "seo": {
       "type": "component",
-      "repeatable": false,
-      "component": "shared.seo"
+      "component": "shared.seo",
+      "repeatable": false
     }
   }
 }

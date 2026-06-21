@@ -689,6 +689,44 @@ export interface ApiHeroContentHeroContent extends Struct.SingleTypeSchema {
 			Schema.Attribute.Private;
 		publishedAt: Schema.Attribute.DateTime;
 		seo: Schema.Attribute.Component<"shared.seo", false>;
+		siteName: Schema.Attribute.String & Schema.Attribute.Required;
+		updatedAt: Schema.Attribute.DateTime;
+		updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+			Schema.Attribute.Private;
+	};
+}
+
+export interface ApiHomePageHomePage extends Struct.CollectionTypeSchema {
+	collectionName: "home_pages";
+	info: {
+		displayName: "Home page";
+		pluralName: "home-pages";
+		singularName: "home-page";
+	};
+	options: {
+		draftAndPublish: false;
+	};
+	attributes: {
+		createdAt: Schema.Attribute.DateTime;
+		createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+			Schema.Attribute.Private;
+		heroBackground: Schema.Attribute.Media<
+			"images" | "files" | "videos" | "audios",
+			true
+		>;
+		heroContent: Schema.Attribute.Blocks;
+		locale: Schema.Attribute.String & Schema.Attribute.Private;
+		localizations: Schema.Attribute.Relation<
+			"oneToMany",
+			"api::home-page.home-page"
+		> &
+			Schema.Attribute.Private;
+		publishedAt: Schema.Attribute.DateTime;
+		seo: Schema.Attribute.Component<"shared.seo", true>;
+		site: Schema.Attribute.Enumeration<["lignin.by", "ligninsorbent.ru"]> &
+			Schema.Attribute.Required &
+			Schema.Attribute.DefaultTo<"lignin.by">;
+		siteName: Schema.Attribute.String & Schema.Attribute.Required;
 		updatedAt: Schema.Attribute.DateTime;
 		updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
 			Schema.Attribute.Private;
@@ -1362,6 +1400,7 @@ declare module "@strapi/strapi" {
 			"api::excluded-article.excluded-article": ApiExcludedArticleExcludedArticle;
 			"api::feedback-form.feedback-form": ApiFeedbackFormFeedbackForm;
 			"api::hero-content.hero-content": ApiHeroContentHeroContent;
+			"api::home-page.home-page": ApiHomePageHomePage;
 			"api::meta-tag.meta-tag": ApiMetaTagMetaTag;
 			"api::sitemap-page.sitemap-page": ApiSitemapPageSitemapPage;
 			"api::sitemap.sitemap": ApiSitemapSitemap;

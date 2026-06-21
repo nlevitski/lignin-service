@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "home_pages",
+  "info": {
+    "singularName": "home-page",
+    "pluralName": "home-pages",
+    "displayName": "Home page"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "site": {
+      "type": "enumeration",
+      "required": true,
+      "default": "lignin.by",
+      "enum": [
+        "lignin.by",
+        "ligninsorbent.ru"
+      ]
+    },
+    "heroBackground": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "heroContent": {
+      "type": "blocks"
+    },
+    "seo": {
+      "type": "component",
+      "component": "shared.seo",
+      "repeatable": true
+    },
+    "siteName": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
