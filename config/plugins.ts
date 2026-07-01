@@ -1,48 +1,48 @@
 export default ({ env }) => ({
 	email: {
 		config: {
-			provider: 'nodemailer',
+			provider: "nodemailer",
 			providerOptions: {
-				host: 'smtp.yandex.ru',
+				host: env("SMTP_HOST"),
 				port: 465,
 				secure: true,
 				// requireTLS: true,
 				// ignoreTLS: false,
 				auth: {
-					user: env('SMTP_AUTH_USER'),
-					pass: env('SMTP_AUTH_PASS'),
+					user: env("SMTP_USER"),
+					pass: env("SMTP_API_KEY"),
 				},
 			},
 			settings: {
-				defaultFrom: env('SMTP_AUTH_USER'),
-				defaultReplyTo: env('SMTP_AUTH_USER'),
+				defaultFrom: env("SMTP_FROM_EMAIL"),
+				defaultReplyTo: env("SMTP_FROM_EMAIL"),
 			},
 		},
 	},
 	telegram: {
 		config: {
-			provider: '',
+			provider: "",
 		},
 	},
-	'webp-converter': {
+	"webp-converter": {
 		enabled: true,
 		config: {
-			mimeTypes: ['image/png', 'image/jpeg', 'image/jpg'],
+			mimeTypes: ["image/png", "image/jpeg", "image/jpg"],
 		},
 	},
 	seo: {
 		enabled: true,
 	},
-  upload: {
-    config: {
-      breakpoints: {
-        xlarge: 1920,
-        large: 1440,
-        medium: 1024,
-        small: 768,
-        xsmall: 480,
-        thumbnail: 240,
-      }
-    }
-  }
+	upload: {
+		config: {
+			breakpoints: {
+				xlarge: 1920,
+				large: 1440,
+				medium: 1024,
+				small: 768,
+				xsmall: 480,
+				thumbnail: 240,
+			},
+		},
+	},
 });
